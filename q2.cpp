@@ -13,14 +13,15 @@ class AVL
     node * root;
 public:
     AVL();
-    void bst_to_avl(int);   // function converting bst to AVL
+    void insertion(int);
     void inserting(int , node *&);                          //I wanted to make Root Private thats why I need two funs for deleting and Inserting
     void in_order_traversal(node * = NULL);
-    int BalanceFactor(node * = NULL);   //  balance factor using in AVL
-    int Height(node * = NULL);   
+    int BalanceFactor(node * = NULL);
+    int Height(node * = NULL);
     void RotateRight(node *&);
     void RotateLeft(node *&);
-    
+    node * unionE(node* T1, node* T2); 
+    node * myfun();
 };
 
 
@@ -29,8 +30,12 @@ AVL::AVL()
     root = NULL;
 }
 
+node * AVL::myfun()
+{
+	return root;
+}
 
-void AVL::bst_to_avl(int key)
+void AVL::insertion(int key)
 {
     inserting(key , root);
 }
@@ -180,18 +185,43 @@ void AVL::in_order_traversal(node * temp)
         in_order_traversal(temp->right);
 }
 
+node *AVL::unionE(node* T1, node* T2)   //  union t1 and t2 
+{
+      if(!T1 && T2)
+	  {
+         return T2;
+      }
+      else if(!T2 && T1)
+	  return T1;
+      else if(!T1 && !T2)
+	  return NULL;
+      T1->info+=T2->info;
+      T1->left = unionE(T1->left,T2->left);
+      T1->right = unionE(T1->right,T2->right);
+      return T1;
+   }
 
 int main()
 {
     AVL tree1;
-    tree1.bst_to_avl(1);
-    tree1.bst_to_avl(2);
-    tree1.bst_to_avl(3);
-    tree1.bst_to_avl(4);
-    tree1.bst_to_avl(5);
- 
+    tree1.insertion(50);
+    tree1.insertion(40);
+    tree1.insertion(60);
+    tree1.insertion(30);
+    tree1.insertion(45);
+    tree1.insertion(55);
+    tree1.insertion(65);
+    tree1.insertion(10);
+    tree1.insertion(35);
     tree1.in_order_traversal();
     cout << endl;
-
+    AVL tree2;
+    tree2.insertion(1);
+    tree2.insertion(2);
+    tree2.insertion(4);
+    tree2.in_order_traversal();
+    tree1.unionE(tree1.myfun(),tree2.myfun());
+    tree1.in_order_traversal();
+    
     return 0;
 }
