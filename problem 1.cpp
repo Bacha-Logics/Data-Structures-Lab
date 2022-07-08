@@ -1,36 +1,43 @@
 #include<iostream>
 using namespace std;
+void myfun(int arr[],int size)
+{
+	int index;           // taking integer local variable
+	cout<<"At Which Index You Want To Insert Element (From 0 to "<<size-1<<")"<<endl;
+	cin>>index;              //    taking index number from user 
+	for(int i=0;i<size;i++)        // using for loop 
+	{
+		if(index <= size-1 && index >= 0)            //  using if condition for entering element in the array at specific postion
+		{
+			cout<<"Enter Element "<<endl;
+			cin>>*(arr + index);
+		}
+		break;    // using break statement to out from loop 
+	}
+	if(index <= size-1)  // using nested if condition to cout the element at specific  index
+	    if(index>=0)
+     	{
+        	cout<<"Element At Index No : "<<"arr["<<index<<"] is  ";
+	
+	        for(int j=0;j<size;j++)
+        	{
+	   	        cout<<*(arr + index)<<endl;
+		        break;	         // using break statement  to out from loop
+        	}
+		
+        }
+	if(index > size-1 || index < 0)            //  using if condition 
+     	cout<<"ARRAY IS OUT OF THE BOUND  "<<endl;
+}
+
 int main()
 {
-	int Size ,Max, Min ,Num ;           // taking integer variables
-	cout<<"Enter Size Of Array :"<<endl;
-	cin>>Size;                            // taking array size from user
-	int arr[Size];
-	cout<<"Enter "<<Size<<" Integer Elements :"<<endl;
-	for(int i=0;i<Size;i++)      // making of dynamic array
-	{
-		cin>>Num;              // num is use to store elements in the array
-		arr[i]=Num;
-	}
-	Max = arr[0];
-	for(int i=0;i<Size;i++)   // using for loop to find maximum element
-	{
-		if(Max<arr[i])
-		{
-			Max = arr[i];
-		}
-	}
-	Min = arr[0];
-	for(int i=0;i<Size;i++)     // using for loop to find minimum element
-	{
-		if(Min>arr[i])
-		{
-			Min = arr[i];
-		}
-	}
-	
-	cout<<"lARGEST NUMBER IS :: "<<Max<<endl;
-	cout<<"SMALLEST NUMBER IS :: "<<Min<<endl;
-	
+	int size;
+	cout<<"Enter size of array "<<endl;  
+	cin>>size;    // taking size from user
+	int * arr;
+	arr = new int[size];   // making dynamic array
+	myfun(arr,size);    // calling function
+	delete[] arr;     // deleting dynamic array 
 	return 0;
 }

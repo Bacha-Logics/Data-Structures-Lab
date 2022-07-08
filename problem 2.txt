@@ -1,0 +1,54 @@
+PART A:
+int *number;
+cout << number << endl;
+ANSWER:
+In the above part A there is no error because the variable Number is a integer pointer which just cout address. It only store address of integer pointer.
+PART B:
+ double *realPtr;
+long *integerPtr;
+integerPtr = realPtr;
+ANSWER:
+As we know that double is float data type which stores 8 bytes on the other hand long in a integer data type which store 8 bytes depend on operating system.
+So we cannot convert double to long.so line three have an error. This problem may be solve by putting pointer on both side.
+For example
+*integerPtr = *realPtr;
+PART C:
+int * x, y;
+x = y;
+ANSWER:
+In the above PART C   , x is the integer pointer and y is only integer so x is only store address of y.
+Error in line 2.
+It will be x = &y; this one is correct.
+PART D:
+char s[] = "this is a character array";
+for (;*s != '\0'; ++s)
+cout << *s << ' ';
+ANSWER:
+There is an error in the loop and also in cout statement. The *s can only print the first element in the array.
+The correct one is:
+char s[] = "this is a character array";
+for (int i=0;i<=25; ++i)
+cout << *(s+i) << ' '; 
+PART E:
+short *numPtr,
+result; void *genericPtr = numPtr;
+result = *genericPtr + 7;
+ANSWER:
+As we know that void is not a pointer to the object type.
+We can use short data type or an integer data type.
+So the correct one is:
+  short *numPtr,
+result; short *genericPtr = numPtr;
+result = *genericPtr + 7;
+PART F:
+double x = 19.34;
+double xPtr = &x;
+cout << xPtr << endl;
+ANSWER:
+Double is like a float data type which store 8 bytes it is not a pointer so it can only store x not the address of x:
+The error is in line 2.
+The correct one is:
+ 
+double x = 19.34;
+double xPtr = x;
+cout << xPtr << endl;

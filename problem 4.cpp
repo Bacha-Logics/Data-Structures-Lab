@@ -1,70 +1,21 @@
 #include<iostream>
+#include<conio.h>
 using namespace std;
 int main()
 {
-    int arr1[3][3],arr2[3][3],arr3[3][3]; // declare 3*3 array
-	int * p,*q,*s;                      // these are integer pointers 
-	cout<<"Enter Elements for First Matrix "<<endl;
-	for(int i=0;i<3;i++)     // this for loop is to store elements in first array
-	{
-		for(int j=0;j<3;j++)
-		{
-			cin>>arr1[i][j];
-		}
-	}
-	cout<<"Enter Elements for Second Matrix "<<endl;
-	for(int i=0;i<3;i++)        //        this for loop is to store elements in second array
-	{
-    	for(int j=0;j<3;j++)
-	    {
-			cin>>arr2[i][j];
-		}
-	}
-	
-		cout<<"First Matrix "<<endl;
-	for(int i=0;i<3;i++)      // this nested for loop makes first matrix using pointers
-	{
-		for(int j=0;j<3;j++)
-		{
-		    q=&arr1[i][j];
-		    cout<<*q;
-            cout<<endl;
-            q++;
-		}
-	}
-	cout<<"Second Matrix "<<endl;
-	for(int i=0;i<3;i++)      //   this nested for loop makes second matrix using pointers
-	{
-    	for(int j=0;j<3;j++)
-	    {
-	    	p = &arr2[i][j];
-		   cout<<*p;
-            cout<<endl;
-            p++;
-		}
-	}
-	cout<<"Sum Of Two Matrix "<<endl;
-	for(int i=0;i<3;i++)                   //  this nested for loop add two matrix and store in third matrix
-	{
-    	for(int j=0;j<3;j++)
-	    {
-	      arr3[i][j] = arr1[i][j]+arr2[i][j];
-	       cout<<arr3[i][j];
-	       cout<<endl;
-		}
-	}
-	cout<<"Multiplication Of Two Matrix "<<endl;
-	for(int i=0;i<3;i++)                //  this nested for loop multiply two matrix and store in third matrix
-	{
-    	for(int j=0;j<3;j++)
-	    {
-	    	 arr3[i][j] = arr1[i][j]*arr2[i][j];
-	       cout<<arr3[i][j];
-	    
-            cout<<endl;
-		}
-	}
-	
-return 0;		
-	
+int a = 5, b = 10;
+int c;
+int* p1, * p2;
+p1 = &a;    // STORING ADDRESS OF a
+p2 = &b;    // STORING ADDRESS OF b
+c = *p1;    // STORING  VALUE AT P1 IN C
+cout << "*(p1++) =" << *(p1++) << endl; // THIS *(P1++) MEANS IT FIRST PRINT A VALUE WHICH IS STORE IN IT AND THEN DECREMENT IT.
+cout << "value of p1 " << p1 << endl;   // P1 IS A INTEGER POINTER WHICH STORE ADDRESS OF a AND a VARUABLE STORE 5 SO P1 STORE THE ADDRESS OF a.
+cout << "*(++p1) =" << *(++p1) << endl; // THIS *(++P1) FIRST DECREMENT AND THEN PRINT P1 VALUE. IN THIS CASE IT WILL BE PRINT A GARBAAG VALUE
+cout << "value of p1 " << p1 << endl;  // THIS P1 GIVE US ADDRESS OF SOME GARBAAG VALUE BECAUSE OF THE ABOVE CONDITION.
+cout << "(*p1)++ =" << (*p1)++ << endl; // THIS (*P1)++  FIRST DECREMENT AND THEN PRINT P1 VALUE. IN THIS CASE IT WILL BE PRINT A GARBAAG VALUE.
+cout << "value of p1 " << p1 << endl;   // THIS P1 GIVE US ADDRESS OF SOME GARBAAG VALUE BECAUSE OF THE ABOVE CONDITION.
+cout << "++(*p1) =" << ++(*p1) << endl; // THIS ++(*P1) FIRST DECREMENT AND THEN PRINT P1 VALUE. IN THIS CASE IT WILL BE PRINT SOME GARBAAG VALUE.
+cout << "value of p1 " << p1 << endl;    // P1 WILL PRINT SOME ADDRESS OF GARBAAG VALUE.
+return 0;
 }
