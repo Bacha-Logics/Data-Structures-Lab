@@ -15,13 +15,10 @@ class linklist
 	public:
 		linklist();
 		~linklist();
-		void Insert(char info);
-		void InsertAtPos(char info,char val);
-		void reverse(Node**);
-        bool compareLists(Node*,Node*); // comparing two linklist elements  return true or false
-        bool isPalindrome(Node* head);  // finding ispalindrome
-		Node *myhead();   // returning pointer head
-		Node **myreference();  // returning reference of head 
+		void Insert(int info);
+		void InsertAtPos(int info,int val);
+		Node* circular( Node* head); // convert single list to circular
+		Node *myhead();   // my head function only return head pointer
 		void print();
 };
 
@@ -47,7 +44,7 @@ linklist::~linklist()
 	delete head;
 }
 
-void linklist::Insert(char info)
+void linklist::Insert(int info)
 {
 	Node *temp = new Node;
 	temp->data = info;
@@ -86,7 +83,7 @@ void linklist::print()
 }
 
 
-void linklist::InsertAtPos(char info, char val)
+void linklist::InsertAtPos(int info, int val)
 {
 	if(head==NULL)
 	{
@@ -138,115 +135,32 @@ Node * linklist::myhead()
 	return head;
 }
 
-Node ** linklist::myreference()
+
+Node* linklist:: circular( Node* head)
 {
-	return &head;
+    Node* start = head;
+    while (head->next != NULL)
+        head = head->next;
+    head->next = start;
+    return start;
 }
 
-bool linklist::isPalindrome(Node* head)
-{
-    Node *temp = head, *temp1 = head;
-    Node *temp2, *temp3 = head;
-     
-    Node* mid = NULL;
-     
-    bool res = true;
- 
-    if (head != NULL && head->next != NULL)
-    {
-         
-        while (temp1 != NULL && temp1->next != NULL)
-        {
-            temp1 = temp1->next->next;
- 
-            temp3 = temp;
-            temp = temp->next;
-        }
- 
-        if (temp1 != NULL)
-        {
-            mid = temp;
-            temp = temp->next;
-        }
- 
-        temp2 = temp;
-        
-        temp3->next = NULL;
-         
-        reverse(&temp2);
-         
-        res = compareLists(head, temp2);
- 
-        reverse(&temp2); 
- 
-        if (mid != NULL)
-        {
-            temp3->next = mid;
-            mid->next = temp2;
-        }
-        else
-            temp3->next = temp2;
-    }
-    return res;
-}
- 
-void linklist::reverse(Node** head_ref)
-{
-    Node* prev = NULL;
-    Node* current = *head_ref;
-    Node* next;
-     
-    while (current != NULL)
-    {
-        next = current->next;
-        current->next = prev;
-        prev = current;
-        current = next;
-    }
-    *head_ref = prev;
-}
- 
-bool linklist::compareLists(Node* head1,Node* head2)
-{
-    Node* temp1 = head1;
-    Node* temp2 = head2;
- 
-    while (temp1 && temp2)
-    {
-        if (temp1->data == temp2->data)
-        {
-            temp1 = temp1->next;
-            temp2 = temp2->next;
-        }
-        else
-            return false;
-    }
- 
-    if (temp1 == NULL && temp2 == NULL)
-        return 1;
-
-    return false;
-}
 
 int main()
 {
+
 	linklist l;
-	linklist s;
-	l.Insert(1);
-	l.Insert(2);
-	l.Insert(1);
-	s.Insert(1);
-	s.Insert(2);
-	s.Insert(1);
-	l.compareLists(l.myhead(),s.myhead());
-	l.reverse(l.myreference());
-	l.isPalindrome(l.myhead());
+	l.Insert(30);
+	l.Insert(55);
+	l.Insert(88);
+	l.Insert(22);
+	l.Insert(22);
+	l.Insert(99);
+	l.InsertAtPos(88,100);
+	l.InsertAtPos(99,101);
 	l.print();
+//	l.circular(l.myhead());
+//	l.print();
 
 	return 0;
 }
-
-
-
-
-

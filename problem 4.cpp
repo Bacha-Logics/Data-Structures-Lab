@@ -1,21 +1,192 @@
 #include<iostream>
-#include<conio.h>
 using namespace std;
+struct node
+{
+	node *next;
+	node *pre;
+	int data;
+};
+
+class dll
+{
+	private:
+		node *head;
+		node *head1;
+		node *head2;
+	public:
+		dll();
+		void insert(int info);
+		void insertat(int key,int info);
+		void frontBackSplit(node* p, node** front, node** back);
+		int findLength(node* head);
+		node* myhead();
+		node** head11();
+		node** head21();
+		void display();
+};
+
+dll::dll()
+{
+	head  = NULL;
+	head1 =NULL;
+	head2 =NULL;
+}
+
+void dll::insert(int info)
+{
+	if(head  == NULL)
+	{
+		head = new node;
+		head->next =NULL;
+		head->pre =NULL;
+		head->data  = info;
+		
+	}
+	else
+	{
+		node *p;
+		p =head;
+		while(p!=NULL)
+		{
+			if(p->next ==NULL)
+			{
+				node*temp  = new node;
+				temp->data =info;
+				temp->next =NULL;
+				temp->pre =p;
+				p->next =temp;
+				return ;
+			}
+			p =p->next;
+		}
+	}
+}
+node** dll::head11()
+{
+	return &head1;
+}
+node ** dll::head21()
+{
+	return &head2;
+}
+
+void dll::insertat(int key, int info)
+{
+	if(head ==NULL)
+	{
+		cout<<"empty"<<endl;
+	}
+	else if(head->next ==NULL&&head->data ==key)
+	{
+		node*temp  =new node;
+		temp->next =NULL;
+		temp->pre  = head;
+		temp->data =info;
+		head->next =temp;
+	}
+	else
+	{
+		node *p;
+		p =head;
+		while(p!=NULL)
+		{
+			if(p ==head&&p->data ==key)
+			{
+				node *temp =new node;
+				temp->next = head->next;
+				temp->pre =head;
+				temp->data =info;
+				head->next->pre =temp;
+				head->next =temp;
+				p =p->next;
+				
+			}
+			else if(p->data ==key&&p->next ==NULL)
+			{
+				node *temp =new node;
+				temp->next =p->next;
+				temp->pre =p;
+				temp->data =info;
+				p->next =temp;
+				p =p->next;
+			}
+			else if(p->data ==key)
+			{
+				node *temp =new node;
+				temp->next =p->next;
+				temp->pre =p;
+				temp->data =info;
+				p->next->pre =temp;
+				p->next =temp;
+				p =p->next;
+			}
+			p=p->next;
+		}
+	}
+}
+
+node * dll::myhead()
+{
+	return head;
+}
+
+int dll::findLength(node* head)
+{
+    int count = 0;
+    node* curr = head;
+    while (curr != NULL)
+    {
+        count++;
+        curr=curr->next;
+    }
+    return count;
+}
+ 
+void dll::frontBackSplit(node* p, node** front, node** back)
+{
+    int len = findLength(p);
+    if (len < 2)
+    {
+        *front = p;
+        *back = NULL;
+        return;
+    }
+ 
+    node* curr = p;
+ 
+    int Count = (len - 1) / 2;       
+    for (int i = 0; i < Count; i++) {
+        curr = curr->next;
+    }
+    *front = p;
+    *back = curr->next;
+    curr->next = NULL;
+}
+ 
+void dll::display()
+{
+	node *p;
+	p = head;
+	int count = 1;
+	while(p != NULL)
+	{
+		cout<<count<<" : "<<p->data<<endl;
+		p = p->next;
+		count += 1;
+	}
+}
+
 int main()
 {
-int a = 5, b = 10;
-int c;
-int* p1, * p2;
-p1 = &a;    // STORING ADDRESS OF a
-p2 = &b;    // STORING ADDRESS OF b
-c = *p1;    // STORING  VALUE AT P1 IN C
-cout << "*(p1++) =" << *(p1++) << endl; // THIS *(P1++) MEANS IT FIRST PRINT A VALUE WHICH IS STORE IN IT AND THEN DECREMENT IT.
-cout << "value of p1 " << p1 << endl;   // P1 IS A INTEGER POINTER WHICH STORE ADDRESS OF a AND a VARUABLE STORE 5 SO P1 STORE THE ADDRESS OF a.
-cout << "*(++p1) =" << *(++p1) << endl; // THIS *(++P1) FIRST DECREMENT AND THEN PRINT P1 VALUE. IN THIS CASE IT WILL BE PRINT A GARBAAG VALUE
-cout << "value of p1 " << p1 << endl;  // THIS P1 GIVE US ADDRESS OF SOME GARBAAG VALUE BECAUSE OF THE ABOVE CONDITION.
-cout << "(*p1)++ =" << (*p1)++ << endl; // THIS (*P1)++  FIRST DECREMENT AND THEN PRINT P1 VALUE. IN THIS CASE IT WILL BE PRINT A GARBAAG VALUE.
-cout << "value of p1 " << p1 << endl;   // THIS P1 GIVE US ADDRESS OF SOME GARBAAG VALUE BECAUSE OF THE ABOVE CONDITION.
-cout << "++(*p1) =" << ++(*p1) << endl; // THIS ++(*P1) FIRST DECREMENT AND THEN PRINT P1 VALUE. IN THIS CASE IT WILL BE PRINT SOME GARBAAG VALUE.
-cout << "value of p1 " << p1 << endl;    // P1 WILL PRINT SOME ADDRESS OF GARBAAG VALUE.
-return 0;
+	dll l;
+	l.insert(44);
+	l.insert(55);
+	l.insert(75);
+	l.insert(65);
+	l.display();
+	l.findLength(l.myhead());
+	l.frontBackSplit(l.myhead(),l.head11(),l.head21());
+	cout<<"sublist"<<endl;
+	l.display();
+	return 0;
 }

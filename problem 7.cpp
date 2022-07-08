@@ -15,7 +15,8 @@ class dll
 		dll();
 		void insert(int info);
 		void insertat(int key,int info);
-		void sortlink(int x,int y);
+		void con(node* a,node* b);
+		node* myhead();
 		void display();
 };
 
@@ -109,40 +110,24 @@ void dll::insertat(int key, int info)
 	}
 }
 
-
-void dll::sortlink(int x, int y)
+node * dll::myhead()
 {
-    if (x == y)
-        return;
- 
-    node *pre = NULL;
-	node *currX = head;
-    while (currX && currX->data != x) {
-        pre = currX;
-        currX = currX->next;
-    }
-    
-    node *prev = NULL, *currY = head;
-    while (currY && currY->data != y) {
-        prev = currY;
-        currY = currY->next;
-    }
-    
-    if (currX == NULL || currY == NULL)
-        return;
- 
-    if (pre != NULL)
-        pre->next = currY;
-    else 
-        head = currY;
-    if (prev != NULL)
-        prev->next = currX;
-    else 
-        head = currX;
- 
-    node* temp = currY->next;
-    currY->next = currX->next;
-    currX->next = temp;
+	return head;
+}
+
+void dll::con(node *a ,node *b)
+ {
+        if( a != NULL && b!= NULL )
+        {
+            if (a->next == NULL)
+                a->next = b;
+            else
+                con(a->next,b);  // using recurrion here 
+        }
+        else
+        {
+            cout << "One Of Them Is NULL";
+        }
 }
 
 void dll::display()
@@ -163,11 +148,18 @@ int main()
 	dll l;
 	l.insert(44);
 	l.insert(55);
-	l.insertat(55,65);
-	l.insertat(65,75);
+	l.insert(75);
+	l.insert(65);
+	l.insert(75);
+	l.insert(85);
 	l.display();
-	cout<<"sorting linkes "<<endl;
-	l.sortlink(44,55);
+	dll s;
+	s.insert(100);
+	s.insert(200);
+	cout<<"second list is"<<endl;
+	s.display();
+	cout<<"concatenates "<<endl;
+	l.con(l.myhead(),s.myhead());	
 	l.display();
 	
 	return 0;

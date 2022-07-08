@@ -1,182 +1,157 @@
 #include<iostream>
 using namespace std;
-
-struct Node
+struct node
 {
+	node *next;
+	node *pre;
 	int data;
-	Node *next;
 };
 
-class linklist
+class dll
 {
-	protected:
-		Node *head;
-		Node *tail;
+	private:
+		node *head;
 	public:
-		linklist();
-		~linklist();
-		void Insert(int info);
-		void InsertAtPos(int info,int val);
-		Node *myhead();
-		void copylistreverse(int info); // copy of linklist in reverse order function 
-		void print();
+		dll();
+		void insert(int info);
+		void insertat(int key,int info);
+		void reverse();
+		void display();
 };
 
-
-linklist::linklist()
+dll::dll()
 {
-	head = NULL;
-	tail = NULL;
+	head  = NULL;
 }
 
-linklist::~linklist()
+void dll::insert(int info)
 {
-	Node *pre;
-	Node *link;
-	link = head;
-	while(link != NULL)
+	if(head  == NULL)
 	{
-		pre = link;
-		link = link->next;
-		delete pre;
-	}
-	delete link;
-	delete head;
-}
-
-void linklist::Insert(int info)
-{
-	Node *temp = new Node;
-	temp->data = info;
-	temp->next = NULL;
-	if(head == NULL)
-	{
-		head = temp;
-		tail = temp;
+		head = new node;
+		head->next =NULL;
+		head->pre =NULL;
+		head->data  = info;
+		
 	}
 	else
 	{
-		tail->next = temp;
-		tail = temp;
-	}
-	
-}
-
-void linklist::print()
-{
-	if(head==NULL)
-	{
-		cout<<"linklist is empty"<<endl;
-	}
-	else
-	{
-		int i = 1;
-		Node *temp;
-		temp = head;
-		while(temp != NULL)
+		node *p;
+		p =head;
+		while(p!=NULL)
 		{
-			cout<<i<<" : "<<temp->data<<endl;
-			temp = temp->next;
-			i++;
-		}
-	}
-}
-
-
-void linklist::InsertAtPos(int info, int val)
-{
-	if(head==NULL)
-	{
-		cout<<"linklist is empty"<<endl;
-	}
-	else if(head == tail)
-	{
-		if(head->data == info)
-		{
-			Node *temp = new Node;
-			temp->next = NULL;
-			temp->data = val;
-			head ->next = temp;
-			tail = temp;
-		}
-		else
-		{
-			cout<<info<<" There is no Node with this data"<<endl;
-		}
-	}
-	else
-	{
-		Node *link;
-		link = head;	
-		while(link != NULL)
-		{
-			if(link->next == tail->next && link->data == info)
+			if(p->next ==NULL)
 			{
-				Node *temp = new Node;
-				temp->data = val;
-				temp->next = NULL;
-				tail->next = temp;
-				tail = temp;
+				node*temp  = new node;
+				temp->data =info;
+				temp->next =NULL;
+				temp->pre =p;
+				p->next =temp;
+				return ;
 			}
-			else if(link->data == info)
-			{
-				Node *temp = new Node;
-				temp->data = val;
-				temp->next = link->next;
-				link->next = temp;
-			}	
-			link = link->next;
+			p =p->next;
 		}
 	}
 }
 
-Node * linklist::myhead()
+void dll::insertat(int key, int info)
 {
-	return head;
-}
-
-
-
-void linklist::copylistreverse(int info)
-{
-	Node *temp = new Node;
-	temp->data = info;
-	temp->next = NULL;
-	if(head == NULL)
+	if(head ==NULL)
 	{
-		head = temp;
-		tail = temp;
+		cout<<"empty"<<endl;
+	}
+	else if(head->next ==NULL&&head->data ==key)
+	{
+		node*temp  =new node;
+		temp->next =NULL;
+		temp->pre  = head;
+		temp->data =info;
+		head->next =temp;
 	}
 	else
 	{
-		temp->next = head;
-		head = temp;
+		node *p;
+		p =head;
+		while(p!=NULL)
+		{
+			if(p ==head&&p->data ==key)
+			{
+				node *temp =new node;
+				temp->next = head->next;
+				temp->pre =head;
+				temp->data =info;
+				head->next->pre =temp;
+				head->next =temp;
+				p =p->next;
+				
+			}
+			else if(p->data ==key&&p->next ==NULL)
+			{
+				node *temp =new node;
+				temp->next =p->next;
+				temp->pre =p;
+				temp->data =info;
+				p->next =temp;
+				p =p->next;
+			}
+			else if(p->data ==key)
+			{
+				node *temp =new node;
+				temp->next =p->next;
+				temp->pre =p;
+				temp->data =info;
+				p->next->pre =temp;
+				p->next =temp;
+				p =p->next;
+			}
+			p=p->next;
+		}
 	}
-	
 }
 
+void dll::reverse()
+{ 
+        node* curr = head;
+        node *prev = NULL;
+		node *next = NULL;
+ 
+        while (curr != NULL) {
+            next = curr->next;
+
+            curr->next = prev;
+ 
+            prev = curr;
+            curr = next;
+        }
+        head = prev;
+}
+
+void dll::display()
+{
+	node *p;
+	p = head;
+	int count = 1;
+	while(p != NULL)
+	{
+		cout<<count<<" : "<<p->data<<endl;
+		p = p->next;
+		count += 1;
+	}
+}
 
 int main()
 {
-
-	linklist l;
-	linklist s;
-	l.Insert(30);
-	l.Insert(55);
-	l.Insert(88);
-	l.Insert(22);
-	l.print();
-	cout<<endl;
-	cout<<"Copy List In Reverse "<<endl;
-	s.copylistreverse(30);
-	s.copylistreverse(55);
-	s.copylistreverse(88);
-	s.copylistreverse(22);
-	s.print();
+	dll l;
+	l.insert(44);
+	l.insert(55);
+	l.insert(75);
+	l.insert(65);
+	l.insert(75);
+	l.insert(85);
+	l.display();
+	cout<<"reverse "<<endl;
+	l.reverse();
+	l.display();
+	
 	return 0;
 }
-
-
-
-
-

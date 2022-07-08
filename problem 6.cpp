@@ -1,5 +1,6 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
+
 
 struct Node
 {
@@ -7,177 +8,157 @@ struct Node
 	Node *next;
 };
 
-class linklist
+
+class cll
 {
-	protected:
+	private:
 		Node *head;
-		Node *tail;
 	public:
-		linklist();
-		~linklist();
-		void Insert(int info);
-		void InsertAtPos(int info,int val);
-		Node *myhead();
-		void removeDuplicates(Node* head);// this function removing duplicates 
-		void print();
+		cll();
+		~cll();
+		void InsertAtBegin(int info);
+	    void delAtEnd(int key);
+		void display();
 };
 
 
-linklist::linklist()
+cll::cll()
 {
 	head = NULL;
-	tail = NULL;
 }
 
-linklist::~linklist()
+cll::~cll()
 {
-	Node *pre;
-	Node *link;
-	link = head;
-	while(link != NULL)
+	Node *query = head->next;
+	Node *pre = query;
+	while(query->next != head)
 	{
-		pre = link;
-		link = link->next;
+		pre = query;
+		query = query->next;
 		delete pre;
 	}
-	delete link;
-	delete head;
+	delete head, query;
 }
 
-void linklist::Insert(int info)
+
+void cll::InsertAtBegin(int info)
 {
-	Node *temp = new Node;
-	temp->data = info;
-	temp->next = NULL;
-	if(head == NULL)
+	if (head == NULL)
 	{
-		head = temp;
-		tail = temp;
+		head = new Node;
+		head->data = info;
+		head->next = head;
 	}
 	else
 	{
-		tail->next = temp;
-		tail = temp;
-	}
-	
-}
-
-void linklist::print()
-{
-	if(head==NULL)
-	{
-		cout<<"linklist is empty"<<endl;
-	}
-	else
-	{
-		int i = 1;
-		Node *temp;
-		temp = head;
-		while(temp != NULL)
-		{
-			cout<<i<<" : "<<temp->data<<endl;
-			temp = temp->next;
-			i++;
-		}
-	}
-}
-
-
-void linklist::InsertAtPos(int info, int val)
-{
-	if(head==NULL)
-	{
-		cout<<"linklist is empty"<<endl;
-	}
-	else if(head == tail)
-	{
-		if(head->data == info)
+		Node *query = head;
+		if (query->next == head)
 		{
 			Node *temp = new Node;
-			temp->next = NULL;
-			temp->data = val;
-			head ->next = temp;
-			tail = temp;
+			temp->next = head;
+			temp->data = info;
+			head->next = temp;
+			head = temp;
 		}
 		else
 		{
-			cout<<info<<" There is no Node with this data"<<endl;
-		}
-	}
-	else
-	{
-		Node *link;
-		link = head;	
-		while(link != NULL)
-		{
-			if(link->next == tail->next && link->data == info)
+			while(query->next != head)
 			{
-				Node *temp = new Node;
-				temp->data = val;
-				temp->next = NULL;
-				tail->next = temp;
-				tail = temp;
+				query = query->next;
 			}
-			else if(link->data == info)
-			{
-				Node *temp = new Node;
-				temp->data = val;
-				temp->next = link->next;
-				link->next = temp;
-			}	
-			link = link->next;
+			Node *temp = new Node;
+			temp->next = head;
+			temp->data = info;
+			query->next = temp;
+			head = temp;	
 		}
 	}
 }
 
-Node * linklist::myhead()
+
+void cll::display()
 {
-	return head;
-}
-
-
-void linklist:: removeDuplicates(Node* head)
-{
-	Node* current = head;
-	Node* next_next;
-	if (current == NULL)
-	return;
-
-	while (current->next != NULL)
+	if (head == NULL)
 	{
-	if (current->data == current->next->data)
+		cout<<"singlyRing is empty"<<endl;
+		return;
+	}
+	Node *query = head;
+	if (query->next == head)
 	{
-		next_next = current->next->next;
-		removeDuplicates(current->next);
-		current->next = next_next;
+		cout<<query->data<<" ";
 	}
 	else
 	{
-		current = current->next;
-	}
+		while(query->next != head)
+		{
+			cout<<query->data<<" ";
+			query = query->next;
+		}	
+		cout<<query->data<<" "<<endl;
 	}
 }
 
+void cll::delAtEnd(int key)
+{
+	if (head == NULL)
+	{
+		cout<<"singlyRing is empty"<<endl;
+	}
+	else if (head->data == key && head->next == head)
+	{
+		Node *query = head;
+		delete query;
+		head = NULL; 
+	}
+	else
+	{
+		Node *query = head;
+		Node *pre = head;
+		while(query->next != head)
+		{
+			if (query->data == key && query == head)
+			{
+				while(query->next != head)
+				{
+					query = query->next;
+				}
+				head = head->next;
+				query->next = head;
+				delete pre;
+				return;
+			}
+			if (query->data == key)
+			{
+				pre->next = query->next;
+				delete query;
+				return;
+			}
+			pre = query;
+			query = query->next;
+		}
+		if (query->data == key && query->next == head)
+		{
+			pre->next = query->next;
+			delete query;
+			return;
+		}
+	}
+}
 
 
 
 
 int main()
 {
-
-	linklist l;
-	l.Insert(30);
-	l.Insert(55);
-	l.Insert(88);
-	l.Insert(22);
-	l.Insert(22);
-	l.Insert(99);
-	l.InsertAtPos(88,100);
-	l.InsertAtPos(99,101);
-	l.print();
-    cout<<endl;
-    cout<<"After Removing of Element "<<endl;
-    l.removeDuplicates(l.myhead());
-    l.print();
+	cll l;
+	l.InsertAtBegin(1);
+	l.InsertAtBegin(2);
+	l.InsertAtBegin(3);
+	l.InsertAtBegin(4);
+	l.display();
+	cout<<"delete is :"<<endl;
+	l.delAtEnd(1);
+	l.display();
 	return 0;
 }
