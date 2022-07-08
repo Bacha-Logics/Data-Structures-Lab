@@ -17,8 +17,8 @@ class linklist
 		~linklist();
 		void Insert(int info);
 		void InsertAtPos(int info,int val);
-		Node *myhead();
-		void copylistreverse(int info); // copy of linklist in reverse order function 
+		void concatenates(Node *a,Node *b);   // this function link two linklists
+		Node *myhead();   // my head function only return head pointer
 		void print();
 };
 
@@ -135,24 +135,19 @@ Node * linklist::myhead()
 	return head;
 }
 
-
-
-void linklist::copylistreverse(int info)
-{
-	Node *temp = new Node;
-	temp->data = info;
-	temp->next = NULL;
-	if(head == NULL)
-	{
-		head = temp;
-		tail = temp;
-	}
-	else
-	{
-		temp->next = head;
-		head = temp;
-	}
-	
+void linklist::concatenates(Node *a ,Node *b)
+ {
+        if( a != NULL && b!= NULL )
+        {
+            if (a->next == NULL)
+                a->next = b;
+            else
+                concatenates(a->next,b);  // using recurrion here 
+        }
+        else
+        {
+            cout << "One Of Them Is NULL";
+        }
 }
 
 
@@ -160,23 +155,26 @@ int main()
 {
 
 	linklist l;
-	linklist s;
 	l.Insert(30);
 	l.Insert(55);
 	l.Insert(88);
 	l.Insert(22);
+	l.Insert(22);
+	l.Insert(99);
+	l.InsertAtPos(88,100);
+	l.InsertAtPos(99,101);
+	l.print();
+	cout<<"Second linklist"<<endl;
+	linklist s;
+	s.Insert(102);
+	s.Insert(103);
+	s.Insert(104);
+	s.InsertAtPos(104,105);
+	s.print();
+	cout<<endl;
+	s.concatenates(l.myhead(),s.myhead());
+	cout<<"Concatenates list is "<<endl;
 	l.print();
 	cout<<endl;
-	cout<<"Copy List In Reverse "<<endl;
-	s.copylistreverse(30);
-	s.copylistreverse(55);
-	s.copylistreverse(88);
-	s.copylistreverse(22);
-	s.print();
 	return 0;
 }
-
-
-
-
-

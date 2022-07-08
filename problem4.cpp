@@ -17,8 +17,7 @@ class linklist
 		~linklist();
 		void Insert(int info);
 		void InsertAtPos(int info,int val);
-		Node *myhead();
-		void copylistreverse(int info); // copy of linklist in reverse order function 
+		void SwapNode(int x,int y);  // changing nodes positions 
 		void print();
 };
 
@@ -130,53 +129,70 @@ void linklist::InsertAtPos(int info, int val)
 	}
 }
 
-Node * linklist::myhead()
-{
-	return head;
+
+void linklist::SwapNode( int x, int y)
+{	
+   if (x == y)
+   {
+      return;
+   }
+    Node *x_prev = NULL; 
+	Node *x_curr = head;
+   while (x_curr && x_curr->data != x)
+   {
+       x_prev = x_curr;
+       x_curr = x_curr->next;
+   }
+ 
+   Node *y_prev = NULL;
+   Node *y_curr = head;
+   while (y_curr && y_curr->data != y)
+   {
+       y_prev = y_curr;
+       y_curr = y_curr->next;
+   }
+
+   if (x_curr == NULL || y_curr == NULL)
+   {
+       return;
+   }
+   if (x_prev != NULL)
+   {
+       x_prev->next = y_curr;
+   }
+   else
+   { 
+       head = y_curr;  
+   }
+   if (y_prev != NULL)
+       y_prev->next = x_curr;
+   else
+   {  
+       head = x_curr;
+   }
+
+   Node *temp = y_curr->next;
+   y_curr->next = x_curr->next;
+   x_curr->next  = temp;
+   
+   cout<<endl;
+   cout<<"Values After Swapping Is :"<<endl;
 }
-
-
-
-void linklist::copylistreverse(int info)
-{
-	Node *temp = new Node;
-	temp->data = info;
-	temp->next = NULL;
-	if(head == NULL)
-	{
-		head = temp;
-		tail = temp;
-	}
-	else
-	{
-		temp->next = head;
-		head = temp;
-	}
-	
-}
-
 
 int main()
 {
 
 	linklist l;
-	linklist s;
 	l.Insert(30);
 	l.Insert(55);
 	l.Insert(88);
 	l.Insert(22);
+	l.Insert(22);
+	l.Insert(99);
+	l.InsertAtPos(88,100);
+	l.InsertAtPos(99,101);
 	l.print();
-	cout<<endl;
-	cout<<"Copy List In Reverse "<<endl;
-	s.copylistreverse(30);
-	s.copylistreverse(55);
-	s.copylistreverse(88);
-	s.copylistreverse(22);
-	s.print();
+    l.SwapNode(30,101);
+    l.print();
 	return 0;
 }
-
-
-
-
-

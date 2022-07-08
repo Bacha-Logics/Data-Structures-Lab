@@ -18,7 +18,7 @@ class linklist
 		void Insert(int info);
 		void InsertAtPos(int info,int val);
 		Node *myhead();
-		void copylistreverse(int info); // copy of linklist in reverse order function 
+		void removeDuplicates(Node* head);// this function removing duplicates 
 		void print();
 };
 
@@ -136,47 +136,48 @@ Node * linklist::myhead()
 }
 
 
-
-void linklist::copylistreverse(int info)
+void linklist:: removeDuplicates(Node* head)
 {
-	Node *temp = new Node;
-	temp->data = info;
-	temp->next = NULL;
-	if(head == NULL)
+	Node* current = head;
+	Node* next_next;
+	if (current == NULL)
+	return;
+
+	while (current->next != NULL)
 	{
-		head = temp;
-		tail = temp;
+	if (current->data == current->next->data)
+	{
+		next_next = current->next->next;
+		removeDuplicates(current->next);
+		current->next = next_next;
 	}
 	else
 	{
-		temp->next = head;
-		head = temp;
+		current = current->next;
 	}
-	
+	}
 }
+
+
+
 
 
 int main()
 {
 
 	linklist l;
-	linklist s;
 	l.Insert(30);
 	l.Insert(55);
 	l.Insert(88);
 	l.Insert(22);
+	l.Insert(22);
+	l.Insert(99);
+	l.InsertAtPos(88,100);
+	l.InsertAtPos(99,101);
 	l.print();
-	cout<<endl;
-	cout<<"Copy List In Reverse "<<endl;
-	s.copylistreverse(30);
-	s.copylistreverse(55);
-	s.copylistreverse(88);
-	s.copylistreverse(22);
-	s.print();
+    cout<<endl;
+    cout<<"After Removing of Element "<<endl;
+    l.removeDuplicates(l.myhead());
+    l.print();
 	return 0;
 }
-
-
-
-
-
